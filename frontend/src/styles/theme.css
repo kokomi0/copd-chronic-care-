@@ -1,0 +1,218 @@
+/* ==============================================================================
+ * 智肺呼吸 (RespiCare 360) - 统一主题色彩与微质感样式系统
+ * 主品牌色：专业医疗呼吸青绿 Teal (#00897B)
+ * 状态高亮色：安全 #43A047、中危 #FB8C00、加重/高危 #E53935
+ * 支持自适应 Dark / Light 模式切换
+ * ============================================================================== */
+
+:root {
+  /* 品牌核心色彩 - 医疗呼吸青绿 (Teal) */
+  --primary: #00897B;
+  --primary-hover: #00796B;
+  --primary-active: #004D40;
+  --primary-light: #E0F2F1;
+  --primary-glow: rgba(0, 137, 123, 0.25);
+
+  /* 状态高亮色 (严谨医疗规范) */
+  --color-safe: #43A047;
+  --color-safe-bg: #E8F5E9;
+  --color-warning: #FB8C00;
+  --color-warning-bg: #FFF3E0;
+  --color-danger: #E53935;
+  --color-danger-bg: #FFEBEE;
+  --color-info: #0288D1;
+  --color-info-bg: #E1F5FE;
+
+  /* 明亮模式 (Light Mode) 变量 */
+  --bg-app: #F5F7FA;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FAFCFC;
+  --bg-sidebar: #FFFFFF;
+  --bg-input: #F8FAFC;
+
+  --text-main: #1E293B;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  --border-light: #E2E8F0;
+  --border-focus: #00897B;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-primary: 0 4px 14px rgba(0, 137, 123, 0.35);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 深色模式 (Dark Mode) 覆盖 */
+[data-theme="dark"] {
+  --bg-app: #0F172A;
+  --bg-surface: #1E293B;
+  --bg-card: #1E293B;
+  --bg-card-hover: #243247;
+  --bg-sidebar: #131E33;
+  --bg-input: #131E33;
+
+  --text-main: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  --border-light: #334155;
+  --border-focus: #26A69A;
+
+  --primary-light: rgba(0, 137, 123, 0.2);
+  --color-safe-bg: rgba(67, 160, 71, 0.18);
+  --color-warning-bg: rgba(251, 140, 0, 0.18);
+  --color-danger-bg: rgba(229, 57, 53, 0.18);
+  --color-info-bg: rgba(2, 136, 209, 0.18);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* 基础重置 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  font-size: 14px;
+  overflow-x: hidden;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* 按钮微质感 */
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00897B 0%, #00796B 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  box-shadow: var(--shadow-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 137, 123, 0.45);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #E53935 0%, #D32F2F 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  box-shadow: 0 4px 14px rgba(229, 57, 53, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(229, 57, 53, 0.45);
+}
+
+.btn-outline {
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 卡片微质感 */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* 呼吸光环动画 */
+@keyframes breathingPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px rgba(0, 137, 123, 0.6)); }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.pulse-lung {
+  animation: breathingPulse 3.5s infinite ease-in-out;
+}
+
+/* 状态药丸标签 Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-safe { background: var(--color-safe-bg); color: var(--color-safe); }
+.badge-warning { background: var(--color-warning-bg); color: var(--color-warning); }
+.badge-danger { background: var(--color-danger-bg); color: var(--color-danger); }
+.badge-primary { background: var(--primary-light); color: var(--primary); }
+
+/* 输入控件 */
+.input-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-size: 14px;
+  transition: border-color var(--transition-fast);
+}
+.input-control:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}

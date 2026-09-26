@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b7285">
+<title>慢阻肺健康管理</title>
+<link rel="icon" type="image/png" href="img/logo-main.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ 启动页（打开软件先看到这个，约 1.6 秒后自动进入） ============ -->
+<div id="splash" class="splash">
+  <div class="splash-inner">
+    <span class="particle p1"></span>
+    <span class="particle p2"></span>
+    <span class="particle p3"></span>
+    <span class="particle p4"></span>
+    <span class="particle p5"></span>
+    <span class="particle p6"></span>
+
+    <div class="splash-logo">
+      <img src="img/logo-main.png" alt="慢阻肺标志">
+      <span class="glow-ring"></span>
+    </div>
+
+    <h1 class="splash-title">慢阻肺健康管理</h1>
+    <p class="splash-sub">每天记录一点，呼吸更轻松</p>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ 1. 首页（导航） ============ -->
+  <section id="page-home" class="page active">
+
+    <!-- 顶部约三分之一：肺标志 + 问候 -->
+    <div class="hero">
+      <div class="hero-logo">
+        <img src="img/logo-main.png" class="hero-img" alt="慢阻肺标志">
+      </div>
+      <h2 id="heroGreeting" class="hero-greeting">你好</h2>
+      <p id="heroDate" class="hero-date"></p>
+      <p class="hero-tag">每天记录一点，呼吸更轻松</p>
+    </div>
+
+    <!-- 功能导航卡片 -->
+    <div class="nav-grid">
+      <button class="nav-card" data-go="checkin">
+        <span class="nav-icon ic-teal">📝</span>
+        <span class="nav-text">
+          <span class="nav-label">今日打卡</span>
+          <span class="nav-desc">记录症状</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-card" data-go="trend">
+        <span class="nav-icon ic-blue">📈</span>
+        <span class="nav-text">
+          <span class="nav-label">趋势变化</span>
+          <span class="nav-desc">看历史曲线</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-card" data-go="doctors">
+        <span class="nav-icon ic-green">🏥</span>
+        <span class="nav-text">
+          <span class="nav-label">医生推荐</span>
+          <span class="nav-desc">何时就医 · 找医生</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-card" data-go="mine">
+        <span class="nav-icon ic-orange">💊</span>
+        <span class="nav-text">
+          <span class="nav-label">用药提醒</span>
+          <span class="nav-desc">到点别忘记</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-card" data-go="knowledge">
+        <span class="nav-icon ic-purple">📚</span>
+        <span class="nav-text">
+          <span class="nav-label">知识库</span>
+          <span class="nav-desc">查药 · 查病 · 查医生</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-card" data-go="training">
+        <span class="nav-icon ic-rose">🌬️</span>
+        <span class="nav-text">
+          <span class="nav-label">呼吸训练</span>
+          <span class="nav-desc">缩唇呼吸 · 腹式呼吸</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ 2. 今日打卡 ============ -->
+  <section id="page-checkin" class="page">
+    <div class="card">
+      <div class="card-head">
+        <span id="checkinDate" class="date-text"></span>
+        <span id="checkinBadge" class="badge hidden">今日已记录</span>
+      </div>
+      <p class="hint">按今天的实际感受选择，每天记一次。</p>
+    </div>
+
+    <!-- 三组症状按钮由 js/checkin.js 生成 -->
+    <div id="symptomGroups"></div>
+
+    <div class="card">
+      <label class="field-label" for="checkinSpo2">血氧饱和度 SpO₂（有指夹血氧仪才填，没有可留空）</label>
+      <div class="input-row">
+        <input type="number" id="checkinSpo2" inputmode="numeric" min="50" max="100" placeholder="例如 95">
+        <span class="unit">%</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label" for="checkinHr">心率（次/分，不知道可留空）</label>
+      <div class="input-row">
+        <input type="number" id="checkinHr" inputmode="numeric" min="40" max="200" placeholder="例如 72">
+        <span class="unit">次/分</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label" for="checkinWeight">体重（公斤，没有秤可留空）</label>
+      <div class="input-row">
+        <input type="number" id="checkinWeight" inputmode="numeric" min="30" max="200" placeholder="例如 55">
+        <span class="unit">公斤</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label" for="checkinNote">备注（可不填）</label>
+      <textarea id="checkinNote" rows="2" placeholder="例如：今天有点感冒 / 爬了两层楼"></textarea>
+    </div>
+
+    <button id="checkinSave" class="btn-primary">保存今日记录</button>
+    <p id="checkinMsg" class="save-msg"></p>
+  </section>
+
+  <!-- ============ 呼吸训练 ============ -->
+  <section id="page-training" class="page">
+    <div class="card">
+      <h2 class="card-title">呼吸训练</h2>
+      <p class="hint">缩唇呼吸和腹式呼吸能帮助改善气促，每天练几次。</p>
+    </div>
+
+    <div class="seg" id="breathMode">
+      <button class="seg-btn active" data-mode="pursed">缩唇呼吸</button>
+      <button class="seg-btn" data-mode="diaphragm">腹式呼吸</button>
+    </div>
+
+    <div class="card">
+      <p class="breath-phase" id="breathPhase">准备</p>
+      <p class="breath-word" id="breathWord"></p>
+      <div class="breath-stage">
+        <div class="breath-circle" id="breathCircle">吸</div>
+      </div>
+      <p class="breath-sets" id="breathSets"></p>
+      <button id="breathStart" class="btn-primary">开始训练</button>
+      <button id="breathStop" class="btn-ghost hidden">停止训练</button>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">今日训练</h2>
+      <div id="breathToday"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">训练方法</h2>
+      <div id="breathGuide"></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. 趋势 ============ -->
+  <section id="page-trend" class="page">
+    <div id="trendAlert" class="alert hidden"></div>
+
+    <div class="seg" id="trendRange">
+      <button class="seg-btn active" data-days="7">近 7 天</button>
+      <button class="seg-btn" data-days="30">近 30 天</button>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">气促程度<span class="legend legend-dyspnea"></span></h2>
+      <p class="hint">数值越高说明喘得越厉害，往下走是好事。</p>
+      <canvas id="chartDyspnea" class="chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">血氧 SpO₂<span class="legend legend-spo2"></span></h2>
+      <p class="hint">一般 95% 以上算正常，低于 90% 要尽快就医。</p>
+      <canvas id="chartSpo2" class="chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">体重<span class="legend legend-weight"></span></h2>
+      <p class="hint">突然变重要留意，可能是水肿。</p>
+      <canvas id="chartWeight" class="chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">心率<span class="legend legend-hr"></span></h2>
+      <p class="hint">静息心率持续偏快要留意。</p>
+      <canvas id="chartHr" class="chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">历史记录</h2>
+      <div id="trendList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. 医生推荐 ============ -->
+  <section id="page-doctors" class="page">
+    <div class="card">
+      <h2 class="card-title">什么情况该去看医生</h2>
+      <div id="doctorGuide"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">推荐医生</h2>
+      <div id="doctorList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 4. 我的 ============ -->
+  <section id="page-mine" class="page">
+
+    <!-- 个人健康档案 -->
+    <div class="card">
+      <h2 class="card-title">个人健康档案</h2>
+      <div id="profileSummary"></div>
+
+      <label class="field-label" for="profileName">姓名 / 称呼</label>
+      <input type="text" id="profileName" placeholder="例如：王阿姨">
+
+      <label class="field-label" for="profileAge">年龄</label>
+      <input type="number" id="profileAge" inputmode="numeric" min="1" max="120" placeholder="例如 68">
+
+      <label class="field-label">性别</label>
+      <div class="seg" id="profileSex">
+        <button class="seg-btn" data-v="男">男</button>
+        <button class="seg-btn" data-v="女">女</button>
+      </div>
+
+      <label class="field-label" for="profileYear">确诊年份（不知道可留空）</label>
+      <input type="number" id="profileYear" inputmode="numeric" min="1950" max="2030" placeholder="例如 2018">
+
+      <label class="field-label">GOLD 分期</label>
+      <div class="seg wrap" id="profileGold">
+        <button class="seg-btn" data-v="1">1 期</button>
+        <button class="seg-btn" data-v="2">2 期</button>
+        <button class="seg-btn" data-v="3">3 期</button>
+        <button class="seg-btn" data-v="4">4 期</button>
+        <button class="seg-btn" data-v="未知">不知道</button>
+      </div>
+
+      <label class="field-label">吸烟情况</label>
+      <div class="seg" id="profileSmoke">
+        <button class="seg-btn" data-v="从不">从不</button>
+        <button class="seg-btn" data-v="已戒">已戒</button>
+        <button class="seg-btn" data-v="仍在吸">仍在吸</button>
+      </div>
+
+      <label class="field-label" for="profileHeight">身高（厘米）</label>
+      <input type="number" id="profileHeight" inputmode="numeric" min="100" max="250" placeholder="例如 160">
+
+      <label class="field-label" for="profileWeight">体重（公斤）</label>
+      <input type="number" id="profileWeight" inputmode="numeric" min="30" max="200" placeholder="例如 55">
+
+      <button id="profileSave" class="btn-primary">保存档案</button>
+      <p id="profileMsg" class="save-msg"></p>
+    </div>
+
+    <!-- 用药提醒 -->
+    <div class="card">
+      <h2 class="card-title">今日用药</h2>
+      <div id="medTodayList"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">添加用药提醒</h2>
+      <label class="field-label" for="medName">药名</label>
+      <input type="text" id="medName" placeholder="例如：噻托溴铵吸入粉雾剂">
+      <div id="medSuggest" class="hidden"></div>
+
+      <label class="field-label" for="medDose">剂量 / 用法（可不填）</label>
+      <input type="text" id="medDose" placeholder="例如：吸入 1 次">
+
+      <label class="field-label" for="medTime">服药时间</label>
+      <input type="time" id="medTime" value="08:00">
+
+      <button id="medAdd" class="btn-secondary">添加</button>
+      <p class="hint">一个时间加一条。早晚都要吃的药，就加两条。</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">全部提醒</h2>
+      <div id="medList"></div>
+      <button id="medNotify" class="btn-ghost">开启浏览器弹窗提醒</button>
+      <p class="warn-note">
+        <strong>请注意：</strong>这是网页版，只有在这个网页开着的时候才会弹提醒。
+        把浏览器关掉或手机锁屏久了，提醒不会响。建议同时用手机自带的闹钟。
+        以后做成手机 App 才能真正后台提醒。
+      </p>
+    </div>
+
+    <!-- 关于 -->
+    <div class="card">
+      <h2 class="card-title">关于</h2>
+      <p class="disclaimer">
+        <strong>免责声明：</strong>本工具只是帮你把每天的身体情况记下来、
+        提醒按时用药，<strong>不能替代医生的诊断和治疗</strong>。
+        任何用药调整都请听主治医生的。身体不舒服请及时就医。
+      </p>
+      <p class="hint">
+        你的所有记录只存在这台设备的浏览器里，不会上传到任何服务器。
+        换手机、清理浏览器数据都会导致记录丢失。
+      </p>
+      <button id="clearData" class="btn-danger">清空全部数据</button>
+    </div>
+
+    <!-- 数据备份 -->
+    <div class="card">
+      <h2 class="card-title">数据备份</h2>
+      <p class="hint">记录只存在这台设备里，换手机或清理浏览器前，先导出备份。</p>
+      <button id="dataExport" class="btn-secondary">导出备份文件</button>
+      <button id="dataImport" class="btn-ghost">从备份文件恢复</button>
+      <input type="file" id="dataImportFile" accept=".json,application/json" class="hidden">
+    </div>
+  </section>
+
+  <!-- ============ 5. 知识库 ============ -->
+  <section id="page-knowledge" class="page">
+    <div class="card">
+      <h2 class="card-title">知识库查询</h2>
+      <p class="hint">查疾病、药物、相互作用、医生，数据来自本地医学知识图谱（需先启动后端服务）。</p>
+      <div class="seg" id="kMode">
+        <button class="seg-btn active" data-mode="search">综合</button>
+        <button class="seg-btn" data-mode="symptom">症状</button>
+        <button class="seg-btn" data-mode="interactions">相互作用</button>
+        <button class="seg-btn" data-mode="doctors">医生</button>
+        <button class="seg-btn" data-mode="category">分类</button>
+      </div>
+      <input type="text" id="kQuery" placeholder="例如：沙丁胺醇 / 呼吸困难 / β2">
+      <button id="kSearch" class="btn-primary">查询</button>
+      <p id="kMsg" class="save-msg"></p>
+    </div>
+    <div id="kResults"></div>
+  </section>
+
+  <!-- ============ 6. 问医生（知识图谱 + 提问 AI） ============ -->
+  <section id="page-ask" class="page">
+    <div class="card ask-graph-card">
+      <div class="ask-head">
+        <h2 class="card-title">知识图谱</h2>
+        <button id="askReload" class="btn-ghost ask-reload">重新布局</button>
+      </div>
+      <p id="askStat" class="hint"></p>
+      <canvas id="askGraph" class="ask-graph"></canvas>
+      <div id="askLegend" class="ask-legend"></div>
+    </div>
+
+    <div id="askChat" class="ask-chat"></div>
+
+    <div id="askInputRow" class="ask-input-row">
+      <input type="text" id="askInput" placeholder="向医生提问…" />
+      <button id="askSend" class="btn-primary ask-send">发送</button>
+    </div>
+  </section>
+
+  <!-- ============ 7. 梳理 ============ -->
+  <section id="page-shuli" class="page">
+    <div class="card no-print">
+      <h2 class="card-title">健康梳理</h2>
+      <p class="hint">把最近的记录汇总成一张「就诊小结」，复诊时给医生看。</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">基本信息</h2>
+      <div id="shuliProfile"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">最近 30 天概览</h2>
+      <div id="shuliSummary"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">就医提示</h2>
+      <div id="shuliAlert"></div>
+    </div>
+
+    <div class="card no-print">
+      <button id="shuliPrint" class="btn-primary">打印 / 保存就诊小结</button>
+      <button id="shuliCopy" class="btn-ghost">复制文字版小结</button>
+      <p class="hint">「打印」里可选「另存为 PDF」；「复制」可粘贴到微信发给医生。</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tab-bar">
+  <button class="tab active" data-page="home"    data-title="首页"><span class="tab-icon">🏠</span>首页</button>
+  <button class="tab"        data-page="trend"   data-title="趋势变化"><span class="tab-icon">📈</span>趋势</button>
+  <button class="tab"        data-page="ask"     data-title="问医生"><span class="tab-icon">🩺</span>问医生</button>
+  <button class="tab"        data-page="shuli"   data-title="梳理"><span class="tab-icon">🗂️</span>梳理</button>
+  <button class="tab"        data-page="mine"    data-title="我的"><span class="tab-icon">👤</span>我的</button>
+</nav>
+
+<!-- 顺序不能乱：store 提供数据，chart 提供画图，其余是各页面功能 -->
+<script src="js/store.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/api.js"></script>
+<script src="js/doctors-data.js"></script>
+<script src="js/checkin.js"></script>
+<script src="js/trend.js"></script>
+<script src="js/meds.js"></script>
+<script src="js/doctors.js"></script>
+<script src="js/knowledge.js"></script>
+<script src="js/shuli.js"></script>
+<script src="js/breath.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/backup.js"></script>
+<script src="js/ask-doctor.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

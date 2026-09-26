@@ -1,0 +1,421 @@
+/* ==============================================================================
+ * 智肺呼吸 (RespiCare 360) - 电脑桌面宽屏 (PC) 与 手机移动端 (Mobile) 全自适应布局
+ * ============================================================================== */
+
+/* 根容器包装器 */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部导航控制台 (Top Header) */
+.app-header {
+  height: 64px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 主体容器 (PC 双栏/三栏布局) */
+.app-container {
+  flex: 1;
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+/* PC 侧边栏导航 (Sidebar) */
+.app-sidebar {
+  width: 240px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  transition: width var(--transition-normal);
+}
+
+.sidebar-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.menu-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.menu-item.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+}
+
+.menu-item svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 主工作区 (Main Content) */
+.app-content {
+  flex: 1;
+  padding: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 顶部关键指标栅格 (Hero Metrics) */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.metric-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* 金刚区工作台功能网格 (Workbench Grid) */
+.grid-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.grid-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workbench-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.module-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.module-card:hover::after {
+  opacity: 1;
+}
+
+.module-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.module-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.module-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.module-code {
+  font-size: 11px;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.module-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.module-action {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+}
+
+/* 底部移动端 4-Tab 导航 (仅手机端生效) */
+.mobile-tabbar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 58px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-light);
+  z-index: 100;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  flex: 1;
+  height: 100%;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.tab-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ------------------------------------------------------------------------------
+ * 手机视口仿真器模式 (Simulator Frame)
+ * 允许在 PC 宽屏上直接切换展示 390x844 极高颜值 iPhone / Android 视口
+ * ------------------------------------------------------------------------------ */
+.simulator-active {
+  background: #111827;
+  padding: 24px 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.simulator-frame {
+  width: 390px;
+  height: 844px;
+  background: var(--bg-app);
+  border-radius: 46px;
+  border: 12px solid #2D3748;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.simulator-frame::-webkit-scrollbar {
+  width: 4px;
+}
+.simulator-frame::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* 手机灵动岛与听筒 */
+.simulator-notch {
+  width: 120px;
+  height: 28px;
+  background: #1A202C;
+  border-radius: 20px;
+  position: sticky;
+  top: 8px;
+  left: 50%;
+  transform: translateX(120px);
+  z-index: 101;
+}
+
+/* ------------------------------------------------------------------------------
+ * 响应式媒体查询断点 (Responsive Breakpoints)
+ * ------------------------------------------------------------------------------ */
+
+/* 平板屏幕 (768px ~ 1023px) */
+@media (max-width: 1023px) {
+  .app-sidebar {
+    width: 68px;
+    padding: 12px 6px;
+  }
+  .menu-item span {
+    display: none;
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .workbench-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 手机屏幕 (< 768px) */
+@media (max-width: 767px) {
+  .app-header {
+    padding: 0 14px;
+    height: 54px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .app-sidebar {
+    display: none; /* 手机端隐藏侧边栏，启用底部 TabBar */
+  }
+  .app-content {
+    padding: 14px 14px 72px 14px; /* 留出底部 TabBar 高度 */
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .metric-card {
+    padding: 12px;
+  }
+  .metric-val {
+    font-size: 20px;
+  }
+  .metric-icon-wrap {
+    width: 38px;
+    height: 38px;
+  }
+  .workbench-grid {
+    grid-template-columns: 1fr; /* 手机端单列卡片或双列 */
+    gap: 12px;
+  }
+  .mobile-tabbar {
+    display: flex;
+  }
+}
